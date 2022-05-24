@@ -1,31 +1,31 @@
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace WebAPIClient
 {
-    public class Schedule
-    {
-        public Schedule()
-        {
-        }
-        public string date { get; set; }
-        public string route { get; set; }
-        public Train[] timetable { get; set; }
-        // public List<Train>? timetable {get; set;}
-    }
-
     public class Train
     {
-        public Train()
+        public string? startStation { get; set; }
+        public string? endStation { get; set; }
+        public long StartTimeUnix { get; set; }
+        public long EndTimeUnix { get; set; }
+        // public string? StartTimeString { get; set; }
+        // public string? EndTimeString { get; set; }
+        public string? TimeOnRoad { get; set; }
+        public int TimeTillStationMinutes { get; set; }
+        public long TimeToLeaveHome { get; set; }
+        public Train() { }
+        public Train(TimetableItem input, long startinput, long endinput)
         {
+            startStation = input.start;
+            endStation = input.destination;
+            TimeOnRoad = input.totaltime;
+            StartTimeUnix = startinput;
+            EndTimeUnix = endinput;
+            TimeTillStationMinutes = 0;
+            TimeToLeaveHome = 0;
         }
-        public string? starttime { get; set; }
-        public string? start { get; set; }
-        public string? destinationtime { get; set; }
-        public string? destination { get; set; }
-        public string? totaltime { get; set; }
+
 
     }
 }
