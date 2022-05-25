@@ -1,8 +1,34 @@
-Budapest
+Erd also
+15
+Erd felso
+20
 Erd
-Szeged
-Wien
--
-Budapest-Deli 30
-Budapest-Keleti 24
-Buapest-Kelenfold 22
+55
+Budapest-Deli
+30
+Kobanya-Kispest
+25
+Budapest-Nyugati
+20
+Budapest-Keleti
+24
+Budapest-Kelenföld
+26
+Ferencváros
+21
+Ferihegy
+42
+Zugló
+34
+Soroksári út
+20
+Angyalföld
+54
+Urom
+62
+Wien Hbf
+15
+Wien Meidling
+35
+Wien Südbf (S-Bahn)
+15
