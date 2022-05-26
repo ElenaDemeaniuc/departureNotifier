@@ -2,9 +2,9 @@ Erd also:15
 Erd felso:20
 Erd:55
 Budapest-Déli:30
-Kõbánya-Kispest:25p
+Kõbánya-Kispest:25
 Budapest-Nyugati:20
-Budapest-Keleti:24j
+Budapest-Keleti:24
 Budapest-Kelenföld:26
 Ferencváros:21
 Ferihegy:42

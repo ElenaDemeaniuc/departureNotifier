@@ -5,6 +5,7 @@
 #include <SPI.h>
 #include <Adafruit_BusIO_Register.h>
 #include "Rotary.h"
+#include "Display.h"
 
 // Pins defined for rotary encoder
 #define Key D7 // GPIO13
@@ -27,6 +28,8 @@ void setup()
 {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  Display_setup();
+  Display_Start();
 }
 
 void loop()
@@ -46,8 +49,7 @@ void loop()
     {
       if (btn != 0)
       {
-        pressTime = pressTime + btnTime; // for some reason here it is not milliseconds
-                                         // threshold value will be used just here. I increase it till 10000 (it wil be approximately 3 sec)
+        pressTime = pressTime + btnTime;
       }
       else if (btn == 0 && pressTime != 0)
       {

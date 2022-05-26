@@ -24,12 +24,5 @@ namespace WebAPIClient
             TimeToLeaveHome = 0;
         }
 
-        // public int GetTimeToLeaveHome()
-        // {
-        //     TimeToLeaveHome = StartTimeMillis - TimeTillStationMinutes * 60000;
-        //     return TimeToLeaveHome;
-        // }
-
-
     }
 }
