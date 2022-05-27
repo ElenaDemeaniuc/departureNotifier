@@ -1,0 +1,13 @@
+83474000
+
+Budapest;Erd;23:40;83400000;Budapest-Deli;Erd also;0:21
+
+Budapest;Wien;23:25;82500000;Budapest-Deli;Wien Hbf;7:18
+
+Erd;Budapest;23:29;83640000;Erd also;Budapest-Deli;0:25
+Erd;Budapest;23:42;84120000;Erd felso;Budapest-Deli;0:27
+
+
+Wien;Budapest;23:51;84960000;Wien Sudbf (S-Bahn);Budapest-Keleti;7:53
+
+Wien;Erd;23:51;84960000;Wien Sudbf (S-Bahn);Erd felso;8:09

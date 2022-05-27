@@ -52,6 +52,10 @@ namespace WebAPIClient
                 }
             }
 
+            StringBuilder sb1 = new StringBuilder();
+            sb1.AppendLine($"{TimeNowMillis}");
+            Data.Add(sb1.ToString());
+
             var array1 = File.ReadAllLines("CitiesText.txt");
             for (var i = 0; i < array1.Length; i++)
             {
@@ -64,22 +68,33 @@ namespace WebAPIClient
 
                         var query = new Dictionary<string, string>()
                         {
-                            ["from"] = stationstart,    //Can use %2A for asterisk
+                            ["from"] = stationstart,
                             ["to"] = stationend,
                             ["date"] = DateToday       //["date"] = "2022.05.23" correct date format         
                         };
                         var uri = QueryHelpers.AddQueryString("https://apiv2.oroszi.net/elvira", query); //building uri
-
                         var streamTask = client.GetStreamAsync(uri);
                         var schedule = await JsonSerializer.DeserializeAsync<Schedule>(await streamTask); //deserialize Json
+
                         List<Train> listOfTrains = new List<Train>();
 
                         foreach (var tr in schedule.timetable)
                         {
                             int starting = StringToMillis(DateToday, tr.starttime);
                             int ending = StringToMillis(DateToday, tr.destinationtime);
+                            int minutetemp;
+                            int leaving = 0;
+                            bool hasValue = homeToStation.TryGetValue(tr.start, out minutetemp);
+                            if (hasValue)
+                            {
+                                leaving = starting - minutetemp * 60000;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Key not present");
+                            }
                             if (starting > TimeNowMillis + 60000 && starting < TimeNowMillis + 60000 * 360) //current time plus 1 minute
-                                listOfTrains.Add(new Train(tr, starting, ending));
+                                listOfTrains.Add(new Train(tr, leaving, array1[i].Trim(new char[] { '*' }), array1[j].Trim(new char[] { '*' })));
                         }
 
                         StringBuilder sb = new StringBuilder();
@@ -88,45 +103,26 @@ namespace WebAPIClient
 
                         foreach (var trainn in arrayOfTrains)
                         {
-                            int minutetemp;
-                            bool hasValue = homeToStation.TryGetValue(trainn.startStation, out minutetemp);
-                            if (hasValue)
-                            {
-                                trainn.TimeTillStationMinutes = minutetemp;
-                                trainn.TimeToLeaveHome = trainn.StartTimeMillis - minutetemp * 60000;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Key not present");
-                            }
+                            //Console.WriteLine($"{trainn.startCity} to {trainn.endCity} Start: {trainn.startStation} at {trainn.startTime}, End: {trainn.endStation} at {trainn.endTime}, {trainn.timeOnRoad}, Leave home at: {trainn.timeToLeaveHome}");
 
-                            Console.WriteLine($"Start: {trainn.startStation} at {trainn.StartTimeMillis}, End: {trainn.endStation} at {trainn.EndTimeMillis}, {trainn.TimeTillStationMinutes}, Leave home at: {trainn.TimeToLeaveHome}");
-                            // Console.WriteLine($"{trainn.TimeTillStationMinutes}, {trainn.TimeToLeaveHome}");
-                            sb.AppendLine();
-
+                            sb.AppendLine($"{trainn.startCity};{trainn.endCity};{trainn.startTime};{trainn.timeToLeaveHome};{trainn.startStation};{trainn.endStation};{trainn.timeOnRoad}");
 
                         }
                         lock (LockObject) { Data.Add(sb.ToString()); }
 
-
-
                     }
                 }
             }
-
-
-
-            // foreach (var tr in schedule.timetable)
-            //     Console.WriteLine($"Start> {tr.start} Dest> {tr.destination} start time> {tr.starttime} arrival> {tr.destinationtime}");
-
-
         }
 
         static async Task Main(string[] args)
         {
             lock (LockObject) { Data = new List<string>(); }
             await ProcessRepositories();
-
+            foreach (var i in Data)
+            {
+                Console.WriteLine(i);
+            }
             //send over tcp 
         }
     }
