@@ -13,6 +13,8 @@
 #define S1 D6  // GPIO14
 #define S2 D5  // GPIO12
 
+#define S3 D4 // GPIO2
+
 // variables for rotary encoder
 const int threshold = 5000;
 int btnTime = 0;
@@ -23,7 +25,10 @@ unsigned long lasttime = 0;
 int RotationNoPress = 0;
 int RotationPress = 0;
 
+bool testBuzzer = false;
+
 Rotary Encoder1(S1, S2, Key);
+Buzzer Buzzer1(S3);
 
 void setup()
 {
@@ -62,6 +67,9 @@ void loop()
         else if (pressTime >= threshold)
         {
           Serial.println("Press is long");
+          testBuzzer = true;
+          Buzzer1.Buzzer_On(testBuzzer);
+          testBuzzer = false;
 
           // A long press of approximately 3 seconds would be changing stove number
         }
@@ -93,4 +101,8 @@ void loop()
       rotarycounter = 0;
     }
   }
+  // string a is "3940000", use a.toInt()
+  //  int seconds = (int) (milliseconds / 1000) % 60 ;
+  //  int minutes = (int)((milliseconds / (1000 * 60)) % 60);
+  //  int hours = (int)((milliseconds / (1000 * 60 * 60)) % 24);
 }

@@ -32,7 +32,7 @@ void Display_Start()
     display.println("3h 55m 47s");
     display.setTextSize(1);
     display.setTextColor(WHITE);
-    display.setCursor(1, 17);
+    display.setCursor(1, 18);
     display.println("Budapest Kelenfold");
     display.setCursor(1, 27);
     display.println("16:40");
@@ -42,5 +42,8 @@ void Display_Start()
     display.println("17:20");
     display.setCursor(1, 57);
     display.println("Time on road 00:24");
+    display.drawLine(0, 16, 128, 16, WHITE);
+    display.drawLine(0, 35, 128, 35, WHITE);
+    display.drawLine(0, 55, 128, 55, WHITE);
     display.display();
 }

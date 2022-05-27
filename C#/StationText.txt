@@ -1,6 +1,6 @@
-Erd also:15
-Erd felso:20
-Erd:55
+Érd alsó:15
+Érd felsõ:20
+Érd:55
 Budapest-Déli:30
 Kõbánya-Kispest:25
 Budapest-Nyugati:20
