@@ -6,6 +6,7 @@
 #include <Adafruit_BusIO_Register.h>
 #include "Rotary.h"
 #include "Display.h"
+#include "Buzzer.h"
 
 // Pins defined for rotary encoder
 #define Key D7 // GPIO13
