@@ -13,7 +13,7 @@
 #define S1 D6  // GPIO14
 #define S2 D5  // GPIO12
 
-#define S3 D4 // GPIO2
+//#define S3 D4 // GPIO2
 
 // variables for rotary encoder
 const int threshold = 5000;
@@ -28,7 +28,7 @@ int RotationPress = 0;
 bool testBuzzer = false;
 
 Rotary Encoder1(S1, S2, Key);
-Buzzer Buzzer1(S3);
+// Buzzer Buzzer1(S3);
 
 void setup()
 {
@@ -41,7 +41,8 @@ void setup()
 void loop()
 {
   // put your main code here, to run repeatedly:
-  Encoder1.Rotary_loop();
+
+    Encoder1.Rotary_loop();
 
   unsigned long time = millis();
   if (time - lasttime > 200)
@@ -67,9 +68,9 @@ void loop()
         else if (pressTime >= threshold)
         {
           Serial.println("Press is long");
-          testBuzzer = true;
-          Buzzer1.Buzzer_On(testBuzzer);
-          testBuzzer = false;
+          // testBuzzer = true;
+          // Buzzer1.Buzzer_On(testBuzzer);
+          // testBuzzer = false;
 
           // A long press of approximately 3 seconds would be changing stove number
         }

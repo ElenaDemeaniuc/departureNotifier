@@ -105,7 +105,7 @@ namespace WebAPIClient
                         {
                             //Console.WriteLine($"{trainn.startCity} to {trainn.endCity} Start: {trainn.startStation} at {trainn.startTime}, End: {trainn.endStation} at {trainn.endTime}, {trainn.timeOnRoad}, Leave home at: {trainn.timeToLeaveHome}");
 
-                            sb.AppendLine($"{trainn.startCity};{trainn.endCity};{trainn.startTime};{trainn.timeToLeaveHome};{trainn.startStation};{trainn.endStation};{trainn.timeOnRoad}");
+                            sb.AppendLine($"{trainn.startCity};{trainn.endCity};{trainn.startTime};{trainn.timeToLeaveHome};{trainn.startStation};{trainn.endStation};{trainn.endTime};{trainn.timeOnRoad}");
 
                         }
                         lock (LockObject) { Data.Add(sb.ToString()); }
