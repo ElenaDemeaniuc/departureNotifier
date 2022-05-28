@@ -51,7 +51,9 @@ void Display_Start()
     display.setCursor(48, 47);
     display.println("00:00");
     display.setCursor(1, 57);
-    display.println("Time on road 00:00");
+    display.println("Time on road");
+    display.setCursor(82, 57);
+    display.println("00:00");
 
     display.display();
 }
@@ -119,7 +121,7 @@ void Display_StartTimeObject(String input)
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(48, 27);
-    display.fillRect(48, 27, 35, 7, SSD1306_BLACK);
+    display.fillRect(48, 27, 29, 7, SSD1306_BLACK);
     display.println(input);
     display.display();
 }

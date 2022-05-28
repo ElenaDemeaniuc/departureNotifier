@@ -1,13 +1,96 @@
-83474000
+42171000
 
-Budapest;Erd;23:40;83400000;Budapest-Deli;Erd also;0:21
+Budapest;Erd;11:50;40800000;Budapest-Deli;Erd felso;12:14;0:24
+Budapest;Erd;12:05;41700000;Budapest-Deli;Erd also;12:22;0:17
+Budapest;Erd;12:10;42000000;Budapest-Deli;Erd also;12:26;0:16
+Budapest;Erd;11:57;41520000;Kobanya-Kispest;Erd also;12:34;0:14
+Budapest;Erd;12:27;43320000;Kobanya-Kispest;Erd felso;13:00;0:15
+Budapest;Erd;12:50;44400000;Budapest-Deli;Erd felso;13:14;0:24
+Budapest;Erd;13:10;45600000;Budapest-Deli;Erd also;13:26;0:16
+Budapest;Erd;12:57;45120000;Kobanya-Kispest;Erd also;13:34;0:14
+Budapest;Erd;13:27;46920000;Kobanya-Kispest;Erd felso;14:00;0:15
+Budapest;Erd;13:50;48000000;Budapest-Deli;Erd felso;14:14;0:24
+Budapest;Erd;14:05;48900000;Budapest-Deli;Erd also;14:22;0:17
+Budapest;Erd;14:10;49200000;Budapest-Deli;Erd also;14:26;0:16
+Budapest;Erd;13:57;48720000;Kobanya-Kispest;Erd also;14:34;0:14
+Budapest;Erd;14:27;50520000;Kobanya-Kispest;Erd felso;15:00;0:15
+Budapest;Erd;14:50;51600000;Budapest-Deli;Erd felso;15:14;0:24
+Budapest;Erd;15:10;52800000;Budapest-Deli;Erd also;15:26;0:16
+Budapest;Erd;14:57;52320000;Kobanya-Kispest;Erd also;15:34;0:14
+Budapest;Erd;15:27;54120000;Kobanya-Kispest;Erd felso;16:00;0:15
+Budapest;Erd;15:50;55200000;Budapest-Deli;Erd felso;16:14;0:24
+Budapest;Erd;16:05;56100000;Budapest-Deli;Erd also;16:22;0:17
+Budapest;Erd;16:10;56400000;Budapest-Deli;Erd also;16:26;0:16
+Budapest;Erd;15:57;55920000;Kobanya-Kispest;Erd also;16:34;0:14
+Budapest;Erd;16:27;57720000;Kobanya-Kispest;Erd felso;17:00;0:15
+Budapest;Erd;16:50;58800000;Budapest-Deli;Erd felso;17:14;0:24
+Budapest;Erd;17:10;60000000;Budapest-Deli;Erd also;17:26;0:16
+Budapest;Erd;16:57;59520000;Kobanya-Kispest;Erd also;17:34;0:14
+Budapest;Erd;17:27;61320000;Kobanya-Kispest;Erd felso;18:00;0:15
 
-Budapest;Wien;23:25;82500000;Budapest-Deli;Wien Hbf;7:18
+Budapest;Wien;12:40;44160000;Budapest-Keleti;Wien Hbf;15:21;2:41
+Budapest;Wien;13:40;47760000;Budapest-Keleti;Wien Meidling;16:35;2:55
+Budapest;Wien;14:40;51360000;Budapest-Keleti;Wien Hbf;17:21;2:41
+Budapest;Wien;14:40;51360000;Budapest-Keleti;Wien Hbf;17:21;2:41
+Budapest;Wien;15:40;54960000;Budapest-Keleti;Wien Meidling;18:35;2:55
+Budapest;Wien;16:40;58560000;Budapest-Keleti;Wien Hbf;19:21;2:41
+Budapest;Wien;17:40;62160000;Budapest-Keleti;Wien Meidling;20:35;2:55
 
-Erd;Budapest;23:29;83640000;Erd also;Budapest-Deli;0:25
-Erd;Budapest;23:42;84120000;Erd felso;Budapest-Deli;0:27
+Erd;Budapest;11:54;41640000;Erd felso;Kobanya-Kispest;12:31;0:37
+Erd;Budapest;12:20;43500000;Erd also;Kobanya-Kispest;13:01;0:41
+Erd;Budapest;12:29;44040000;Erd also;Budapest-Deli;12:49;0:20
+Erd;Budapest;12:42;44520000;Erd felso;Budapest-Deli;13:09;0:27
+Erd;Budapest;12:54;45240000;Erd felso;Kobanya-Kispest;13:31;0:37
+Erd;Budapest;13:20;47100000;Erd also;Kobanya-Kispest;14:01;0:41
+Erd;Budapest;13:29;47640000;Erd also;Budapest-Deli;13:49;0:20
+Erd;Budapest;13:34;47940000;Erd also;Budapest-Deli;13:54;0:20
+Erd;Budapest;13:42;48120000;Erd felso;Budapest-Deli;14:09;0:27
+Erd;Budapest;13:54;48840000;Erd felso;Kobanya-Kispest;14:31;0:37
+Erd;Budapest;14:20;50700000;Erd also;Kobanya-Kispest;15:01;0:41
+Erd;Budapest;14:29;51240000;Erd also;Budapest-Deli;14:49;0:20
+Erd;Budapest;14:42;51720000;Erd felso;Budapest-Deli;15:09;0:27
+Erd;Budapest;14:54;52440000;Erd felso;Kobanya-Kispest;15:31;0:37
+Erd;Budapest;15:20;54300000;Erd also;Kobanya-Kispest;16:01;0:41
+Erd;Budapest;15:29;54840000;Erd also;Budapest-Deli;15:49;0:20
+Erd;Budapest;15:34;55140000;Erd also;Budapest-Deli;15:54;0:20
+Erd;Budapest;15:42;55320000;Erd felso;Budapest-Deli;16:09;0:27
+Erd;Budapest;15:54;56040000;Erd felso;Kobanya-Kispest;16:31;0:37
+Erd;Budapest;16:20;57900000;Erd also;Kobanya-Kispest;17:01;0:41
+Erd;Budapest;16:29;58440000;Erd also;Budapest-Deli;16:49;0:20
+Erd;Budapest;16:42;58920000;Erd felso;Budapest-Deli;17:09;0:27
+Erd;Budapest;16:54;59640000;Erd felso;Kobanya-Kispest;17:31;0:37
+Erd;Budapest;17:20;61500000;Erd also;Kobanya-Kispest;18:01;0:41
+Erd;Budapest;17:29;62040000;Erd also;Budapest-Deli;17:49;0:20
+Erd;Budapest;17:34;62340000;Erd also;Budapest-Deli;17:54;0:20
+Erd;Budapest;17:42;62520000;Erd felso;Budapest-Deli;18:09;0:27
 
+Erd;Wien;11:54;41640000;Erd felso;Wien Hbf;15:21;3:27
+Erd;Wien;12:29;44040000;Erd also;Wien Hbf;15:21;2:52
+Erd;Wien;12:54;45240000;Erd felso;Wien Meidling;16:35;3:41
+Erd;Wien;13:34;47940000;Erd also;Wien Meidling;16:35;3:01
+Erd;Wien;13:54;48840000;Erd felso;Wien Hbf;17:21;3:27
+Erd;Wien;14:29;51240000;Erd also;Wien Hbf;17:21;2:52
+Erd;Wien;14:54;52440000;Erd felso;Wien Meidling;18:35;3:41
+Erd;Wien;15:29;54840000;Erd also;Wien Meidling;18:35;3:06
+Erd;Wien;15:34;55140000;Erd also;Wien Meidling;18:35;3:01
+Erd;Wien;15:54;56040000;Erd felso;Wien Hbf;19:21;3:27
+Erd;Wien;16:29;58440000;Erd also;Wien Hbf;19:21;2:52
+Erd;Wien;16:54;59640000;Erd felso;Wien Meidling;20:35;3:41
+Erd;Wien;17:29;62040000;Erd also;Wien Meidling;20:35;3:06
+Erd;Wien;17:34;62340000;Erd also;Wien Meidling;20:35;3:01
+Erd;Wien;17:42;62520000;Erd felso;Wien Hbf;21:18;3:36
 
-Wien;Budapest;23:51;84960000;Wien Sudbf (S-Bahn);Budapest-Keleti;7:53
+Wien;Budapest;12:42;44820000;Wien Hbf;Budapest-Keleti;15:19;2:37
+Wien;Budapest;13:25;46200000;Wien Meidling;Budapest-Keleti;16:19;2:39
+Wien;Budapest;14:37;51720000;Wien Hbf;Budapest-Keleti;17:19;2:42
+Wien;Budapest;15:25;53400000;Wien Meidling;Budapest-Keleti;18:19;2:39
+Wien;Budapest;16:42;59220000;Wien Hbf;Budapest-Keleti;19:19;2:37
+Wien;Budapest;16:42;59220000;Wien Hbf;Budapest-Keleti;19:19;2:37
+Wien;Budapest;17:25;60600000;Wien Meidling;Budapest-Keleti;20:19;2:39
 
-Wien;Erd;23:51;84960000;Wien Sudbf (S-Bahn);Erd felso;8:09
+Wien;Erd;12:42;44820000;Wien Hbf;Erd also;15:26;2:44
+Wien;Erd;13:25;46200000;Wien Meidling;Erd also;16:22;2:42
+Wien;Erd;14:37;51720000;Wien Hbf;Erd also;17:26;2:49
+Wien;Erd;15:25;53400000;Wien Meidling;Erd also;18:22;2:42
+Wien;Erd;16:42;59220000;Wien Hbf;Erd also;19:26;2:44
+Wien;Erd;17:25;60600000;Wien Meidling;Erd also;20:22;2:42
