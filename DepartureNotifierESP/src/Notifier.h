@@ -17,6 +17,7 @@ public:
     void SetTimer(int t);
     int GetTimer();
     bool GetBeep();
+    void ResetTimer();
 };
 
 #endif

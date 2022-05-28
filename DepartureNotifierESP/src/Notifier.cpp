@@ -11,6 +11,11 @@ void Notifier::SetTimer(int a)
     timer_remain = timer_remain + b;
 }
 
+void Notifier::ResetTimer()
+{
+    timer_remain = 0;
+}
+
 void Notifier::Notifier_loop()
 {
     unsigned long currenttime = millis();

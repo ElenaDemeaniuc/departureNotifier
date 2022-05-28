@@ -17,15 +17,18 @@
 //#define S3 D4 // GPIO2
 
 // variables for rotary encoder
-const int threshold = 5000;
+const int thresholdReset = 10000;
+const int threshold = 1500;
+
+unsigned long ElapsedTime;
 unsigned long lasttime = 0;
 unsigned long lasttime2 = 0;
+int32 TimeFromData;
+
 int btnTime = 0;
 bool btn;
 int rotarycounter = 0;
 int pressTime = 0;
-int RotationNoPress = 0;
-int RotationPress = 0;
 int timing = 0;
 
 int index1 = 0;
@@ -57,6 +60,10 @@ String endcity = "End";
 Rotary Encoder1(S1, S2, Key);
 Notifier Notify;
 
+//
+
+//
+
 void TimerOnDisplay(int input)
 {
   int timer = input;
@@ -67,11 +74,12 @@ void TimerOnDisplay(int input)
     int hours = ((timer / (1000 * 60 * 60)) % 24);
     Display_timer(hours, minutes, seconds);
   }
-  else
-  {
-    Serial.println("Invalid timer");
-  }
 }
+
+//
+//
+//
+//
 
 void setup()
 {
@@ -85,11 +93,12 @@ void loop()
 {
   // put your main code here, to run repeatedly:
   Encoder1.Rotary_loop();
+  TimeFromData = 42171000; // example for testing
 
-  unsigned long time = millis();
-  if (time - lasttime > 200)
+  ElapsedTime = millis();
+  if (ElapsedTime - lasttime > 200)
   {
-    lasttime = time;
+    lasttime = ElapsedTime;
     rotarycounter += Encoder1.GetDeltaCounter();
     btn = Encoder1.GetIsButtonPressed();
     btnTime = Encoder1.GetPressButtonTime();
@@ -107,11 +116,18 @@ void loop()
           Shortpress = true;
           Serial.println("Press is short");
         }
-        else if (pressTime >= threshold)
+        else if (pressTime >= threshold && pressTime < thresholdReset)
+        {
+          // During timer setting this will be often occuring
+          Serial.println("Press is medium");
+        }
+        else if (pressTime >= thresholdReset)
         {
           Display_Reset();
           String startcity = "Start";
           String endcity = "End";
+          Serial.println("Press is long");
+          Notify.ResetTimer();
         }
         pressTime = 0;
       }
@@ -122,23 +138,68 @@ void loop()
     {
       if (btn == 0)
       {
-        RotationNoPress = RotationNoPress + rotarycounter;
-        if (RotationNoPress < 0)
-          RotationNoPress = 0;
-        if (RotationNoPress > 10)
-          RotationNoPress = 10;
+        index1 = index1 + rotarycounter;
+        if (index1 < 0)
+          index1 = 2;
+        if (index1 > 2)
+          index1 = 0; // thus we rotate in circle a-b-c-a-b-..
+        index2 = index2 + rotarycounter;
+        if (index2 < 0)
+          index2 = 2;
+        if (index2 > 2)
+          index2 = 0;
+        index3 = index3 + rotarycounter;
+        if (index3 < 0)
+          index3 = 0;
         Serial.print("Encoder rotation: ");
-        Serial.println(RotationNoPress);
+        Serial.println(index1);
+        Serial.print("Encoder rotation: ");
+        Serial.println(index2);
+        Serial.print("Encoder rotation: ");
+        Serial.println(index3); // upper limit - size of temporary array
       }
       else if (btn != 0)
       {
         timing = timing + rotarycounter * 1000;
         if (timing < 0)
           timing = 0;
+        Serial.print("timing: ");
+        Serial.println(timing);
       }
       rotarycounter = 0;
     }
 
+    // Array functions
+    if (startcity.equals("Start"))
+    {
+      Display_StartPoint(CityArray[index1]);
+      if (Shortpress == true)
+      {
+        startcity = CityArray[index1];
+        Display_StartPoint(startcity);
+        Shortpress = false;
+      }
+    }
+
+    if (!startcity.equals("Start") && endcity.equals("End"))
+    {
+      Display_EndPoint(CityArray[index2]);
+      if (Shortpress == true)
+      {
+        if (!startcity.equals(CityArray[index2]))
+        {
+          endcity = CityArray[index2];
+          Display_EndPoint(endcity);
+          Shortpress = false;
+        }
+        else
+        {
+          Shortpress = false;
+        }
+      }
+    }
+
+        // at the end of first loop
     if (timing != 0)
     {
       Notify.SetTimer(timing);

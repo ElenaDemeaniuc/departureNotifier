@@ -81,7 +81,7 @@ void Display_StartPoint(String input)
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(1, 17);
-    display.fillRect(1, 17, 126, 7, SSD1306_BLACK);
+    display.fillRect(1, 17, 126, 8, SSD1306_BLACK);
     display.println(input);
     display.display();
 }
@@ -91,7 +91,7 @@ void Display_EndPoint(String input)
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(1, 39);
-    display.fillRect(1, 39, 126, 7, SSD1306_BLACK);
+    display.fillRect(1, 39, 126, 8, SSD1306_BLACK);
     display.println(input);
     display.display();
 }
@@ -101,7 +101,7 @@ void Display_TimeOnRoad(String input)
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(82, 57);
-    display.fillRect(82, 57, 35, 7, SSD1306_BLACK);
+    display.fillRect(82, 57, 35, 8, SSD1306_BLACK);
     display.println(input);
     display.display();
 }
@@ -111,7 +111,7 @@ void Display_EndTime(String input)
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(48, 47);
-    display.fillRect(48, 47, 35, 7, SSD1306_BLACK);
+    display.fillRect(48, 47, 35, 8, SSD1306_BLACK);
     display.println(input);
     display.display();
 }
@@ -121,7 +121,7 @@ void Display_StartTimeObject(String input)
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(48, 27);
-    display.fillRect(48, 27, 29, 7, SSD1306_BLACK);
+    display.fillRect(48, 27, 29, 8, SSD1306_BLACK);
     display.println(input);
     display.display();
 }
@@ -131,13 +131,13 @@ void Display_StartTimeSelect(String input1, String input2, String input3)
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(2, 27);
-    display.fillRect(2, 27, 35, 7, SSD1306_BLACK);
+    display.fillRect(2, 27, 35, 8, SSD1306_BLACK);
     display.println(input1);
     display.setCursor(48, 27);
-    display.fillRect(48, 27, 35, 7, SSD1306_BLACK);
+    display.fillRect(48, 27, 29, 8, SSD1306_BLACK);
     display.println(input2);
     display.setCursor(98, 27);
-    display.fillRect(98, 27, 35, 7, SSD1306_BLACK);
+    display.fillRect(98, 27, 35, 8, SSD1306_BLACK);
     display.println(input3);
     display.display();
 }
@@ -149,13 +149,13 @@ void Display_Reset()
     display.fillRect(x, y, 10, 14, SSD1306_BLACK);
     display.fillRect(x + 36, y, 22, 14, SSD1306_BLACK);
     display.fillRect(x + 84, y, 22, 14, SSD1306_BLACK);
-    display.fillRect(1, 17, 126, 7, SSD1306_BLACK);
-    display.fillRect(1, 39, 126, 7, SSD1306_BLACK);
-    display.fillRect(82, 57, 35, 7, SSD1306_BLACK);
-    display.fillRect(48, 47, 35, 7, SSD1306_BLACK);
-    display.fillRect(2, 27, 35, 7, SSD1306_BLACK);
-    display.fillRect(48, 27, 35, 7, SSD1306_BLACK);
-    display.fillRect(98, 27, 35, 7, SSD1306_BLACK);
+    display.fillRect(1, 17, 126, 8, SSD1306_BLACK);
+    display.fillRect(1, 39, 126, 8, SSD1306_BLACK);
+    display.fillRect(82, 57, 35, 8, SSD1306_BLACK);
+    display.fillRect(48, 47, 35, 8, SSD1306_BLACK);
+    display.fillRect(2, 27, 35, 8, SSD1306_BLACK);
+    display.fillRect(48, 27, 29, 8, SSD1306_BLACK);
+    display.fillRect(98, 27, 35, 8, SSD1306_BLACK);
     display.setTextSize(2);
     display.setTextColor(WHITE);
     display.setCursor(0, 0);
