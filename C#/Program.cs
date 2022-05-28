@@ -18,7 +18,7 @@ namespace WebAPIClient
 
         private static async Task ProcessRepositories()
         {
-            DateTime CurrentTime = DateTime.Now;
+            DateTimeOffset CurrentTime = DateTime.Now;
             string DateToday = CurrentTime.ToString("yyyy.MM.dd");
             string TimeNow = CurrentTime.ToString("HH:mm:ss");
             int TimeNowMillis = StringToMillis(DateToday, TimeNow);
@@ -93,7 +93,7 @@ namespace WebAPIClient
                             {
                                 Console.WriteLine("Key not present");
                             }
-                            if (starting > TimeNowMillis + 60000 && starting < TimeNowMillis + 60000 * 360) //current time plus 1 minute
+                            if (starting > TimeNowMillis + minutetemp * 60000 + 60000 && starting < TimeNowMillis + 60000 * 360) //current time plus 1 minute
                                 listOfTrains.Add(new Train(tr, leaving, array1[i].Trim(new char[] { '*' }), array1[j].Trim(new char[] { '*' })));
                         }
 

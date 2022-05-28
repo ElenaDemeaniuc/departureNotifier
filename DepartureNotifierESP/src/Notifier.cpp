@@ -31,7 +31,7 @@ void Notifier::Notifier_loop()
         if (timer_remain != 0)
         {
 
-            timer_remain = timer_remain - 1;
+            timer_remain = timer_remain - 1000;
             if (timer_remain == 0)
             {
                 beepRequest = true;
