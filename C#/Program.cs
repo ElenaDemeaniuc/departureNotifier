@@ -7,14 +7,46 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text;
+using System.Net.Sockets;
 
 namespace WebAPIClient
 {
     class Program
     {
         private static readonly HttpClient client = new HttpClient();
-        static List<string>? Data;
+        static List<string> Data;
         static readonly object LockObject = new object();
+
+        private static int linenumber = 0;
+        private const int port = 5000;
+        private const string HostName = "Name";
+        static void Connect(String server, String message)
+        {
+            try
+            {
+                TcpClient client = new TcpClient(server, port);
+                Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
+                NetworkStream stream = client.GetStream();
+                stream.Write(data, 0, data.Length);
+                Console.WriteLine("Sent: {0}", message);
+                stream.Close();
+                client.Close();
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine("ArgumentNullException: {0}", e);
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("SocketException: {0}", e);
+            }
+
+            Console.WriteLine("\n Press Enter to continue...");
+            Console.Read();
+        }
+
+
+
 
         private static async Task ProcessRepositories()
         {
@@ -93,7 +125,7 @@ namespace WebAPIClient
                             {
                                 Console.WriteLine("Key not present");
                             }
-                            if (starting > TimeNowMillis + minutetemp * 60000 + 60000 && starting < TimeNowMillis + 60000 * 360) //current time plus 1 minute
+                            if (starting > TimeNowMillis + minutetemp * 60000 + 60000 && starting < TimeNowMillis + 60000 * 180) //current time plus 1 minute
                                 listOfTrains.Add(new Train(tr, leaving, array1[i].Trim(new char[] { '*' }), array1[j].Trim(new char[] { '*' })));
                         }
 
@@ -106,7 +138,8 @@ namespace WebAPIClient
                             //Console.WriteLine($"{trainn.startCity} to {trainn.endCity} Start: {trainn.startStation} at {trainn.startTime}, End: {trainn.endStation} at {trainn.endTime}, {trainn.timeOnRoad}, Leave home at: {trainn.timeToLeaveHome}");
 
                             sb.AppendLine($"{trainn.startCity};{trainn.endCity};{trainn.startTime};{trainn.timeToLeaveHome};{trainn.startStation};{trainn.endStation};{trainn.endTime};{trainn.timeOnRoad}");
-
+                            linenumber = linenumber + 1;
+                            // Data.Add($"{trainn.startCity};{trainn.endCity};{trainn.startTime};{trainn.timeToLeaveHome};{trainn.startStation};{trainn.endStation};{trainn.endTime};{trainn.timeOnRoad}"));
                         }
                         lock (LockObject) { Data.Add(sb.ToString()); }
 
@@ -119,11 +152,21 @@ namespace WebAPIClient
         {
             lock (LockObject) { Data = new List<string>(); }
             await ProcessRepositories();
+            //Console.WriteLine(linenumber);
+            Data.Insert(0, linenumber.ToString() + "\n");
             foreach (var i in Data)
             {
                 Console.WriteLine(i);
             }
-            //send over tcp 
+            StringBuilder datastring = new StringBuilder();
+            foreach (var j in Data)
+            {
+                datastring.Append(j);
+            }
+            Console.WriteLine(datastring);
+            String datastring2 = datastring.ToString();
+            //send over tcp  
+            Connect(HostName, datastring2);
         }
     }
 }

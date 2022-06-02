@@ -4,10 +4,13 @@
 #include <Wire.h>
 #include <SPI.h>
 #include <Adafruit_BusIO_Register.h>
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
 #include "Rotary.h"
 #include "Display.h"
 #include "Buzzer.h"
 #include "Notifier.h"
+#include <stdio.h>
 
 // Pins defined for rotary encoder
 #define Key D7 // GPIO13
@@ -16,10 +19,23 @@
 
 //#define S3 D4 // GPIO2
 
+struct Train
+{
+  char citystart[10];
+  char cityend[10];
+  char timestart[5];
+  int32 timeleave; // int timetoleave=atoi(train.timeleave)
+  char stationstart[20];
+  char stationend[20];
+  char timeend[5];
+  char timetotal[5];
+};
+
+struct Train *trains = NULL;
+
 // variables for rotary encoder
 const int thresholdReset = 10000;
 const int threshold = 1500;
-
 unsigned long ElapsedTime;
 unsigned long lasttime = 0;
 unsigned long lasttime2 = 0;
@@ -45,26 +61,13 @@ String CityArray[3] = {"Budapest", "Wien", "Erd"};
 
 String startcity = "Start";
 String endcity = "End";
-String datastartplace = "Empty";
-String datastarttime = "Empty";
-String dataendplace = "Empty";
-String dataendtime = "Empty";
-String datatotaltime = "Empty";
-String dataleavehome = "Empty";
-
-String a = "Empty";
-String b = "Empty";
-String c = "Empty";
-String d = "Empty";
-String e = "Empty";
-String f = "Empty";
 
 Rotary Encoder1(S1, S2, Key);
 Notifier Notify;
 
-//
+int datasize = 11; // example for testing
 
-//
+int TimeFromData = 38171000; // example for testing
 
 void TimerOnDisplay(int input)
 {
@@ -78,26 +81,9 @@ void TimerOnDisplay(int input)
   }
 }
 
-String data[] = {"Budapest;Erd;11:50;40800000;Budapest-Deli;Erd felso;12:14;0:24",
-                 "Budapest;Erd;12:05;41700000;Budapest-Deli;Erd also;12:22;0:17",
-                 "Budapest;Erd;12:10;42000000;Budapest-Deli;Erd also;12:26;0:16",
-                 "Budapest;Erd;11:57;41520000;Kobanya-Kispest;Erd also;12:34;0:14",
-                 "Erd;Budapest;14:29;51240000;Erd also;Budapest-Deli;14:49;0:20",
-                 "Erd;Budapest;14:42;51720000;Erd felso;Budapest-Deli;15:09;0:27",
-                 "Erd;Budapest;14:54;52440000;Erd felso;Kobanya-Kispest;15:31;0:37",
-                 "Erd;Budapest;15:20;54300000;Erd also;Kobanya-Kispest;16:01;0:41",
-                 "Wien;Budapest;12:42;44820000;Wien Hbf;Budapest-Keleti;15:19;2:37",
-                 "Wien;Budapest;13:25;46200000;Wien Meidling;Budapest-Keleti;16:19;2:39",
-                 "Wien;Budapest;14:37;51720000;Wien Hbf;Budapest-Keleti;17:19;2:42"};
-int datasize = 11; // example for testing
-
-String big[11];
-int TimeFromData = 38171000; // example for testing
-//
-//
-//
-//
-String My_S = "11:50;40800000;Budapest-Deli;Erd felso;12:14;0:24 ";
+const char *ssid = "";
+const char *password = "";
+WiFiServer server(5000);
 
 void setup()
 {
@@ -105,12 +91,62 @@ void setup()
   Serial.begin(115200);
   Display_setup();
   Display_Start();
+  WiFi.begin(ssid, password);
+
+  // Wait for connection
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    Serial.print(".");
+  }
+  Serial.print("Connected to ");
+  Serial.println(ssid);
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+
+  // Start the TCP server
+  server.begin();
 }
 
 void loop()
 {
-
   // put your main code here, to run repeatedly:
+
+  WiFiClient client = server.available();
+  // // wait for a client (web browser) to connect
+  if (client)
+  {
+    Serial.println("\n[Client connected]");
+    int a = 0;
+    while (client.connected())
+    {
+      // read line by line what the client (web browser) is requesting
+      if (client.available())
+      {
+        String line = client.readStringUntil('\r');
+        Serial.print(line);
+        if (a == 0)
+        {
+          int b = line.toInt();
+          a++;
+          if (trains != NULL)
+          {
+            free(trains);
+          }
+          trains = (struct Train *)malloc(b * sizeof(struct Train));
+          continue;
+        }
+        if (a == 1)
+        {
+          // int c=line.
+        }
+        // line.C_str
+      }
+    }
+
+    client.stop();
+    Serial.println("[Client disonnected]");
+  }
+
   Encoder1.Rotary_loop();
 
   ElapsedTime = millis();
@@ -144,12 +180,6 @@ void loop()
           Display_Reset();
           startcity = "Start";
           endcity = "End";
-          a = "Empty";
-          b = "Empty";
-          c = "Empty";
-          d = "Empty";
-          e = "Empty";
-          f = "Empty";
           Serial.println("Press is long");
           Notify.ResetTimer();
         }
@@ -228,75 +258,29 @@ void loop()
     {
       for (int i = 0; i < datasize; i++)
       {
-        big[i] = data[i];
-        big[i].remove(0, startcity.length() + 1);
-        big[i].remove(0, endcity.length());
       }
-      int index = My_S.indexOf(';');
-      if (index != 0)
+      // at the end of first loop
+      if (timing != 0)
       {
-        if (a.equals("Empty"))
-        {
-          a = My_S.substring(0, index);
-          Serial.println(a);
-        }
-        else if (b.equals("Empty"))
-        {
-          b = My_S.substring(0, index);
-          Serial.println(b);
-          timing = b.toInt() - TimeFromData;
-        }
-        else if (c.equals("Empty"))
-        {
-          c = My_S.substring(0, index);
-          Serial.println(c);
-        }
-        else if (d.equals("Empty"))
-        {
-          d = My_S.substring(0, index);
-          Serial.println(d);
-        }
-        else if (e.equals("Empty"))
-        {
-          e = My_S.substring(0, index);
-          Serial.println(e);
-        }
-        else if (f.equals("Empty"))
-        {
-          f = My_S;
-          Serial.println(f);
-          StartDataLoop = false;
-        }
+        Notify.SetTimer(timing);
+        timing = 0;
       }
-      My_S.remove(0, index + 1);
-      Display_StartTimeObject(a);
-      Display_StartPoint(c);
-      Display_EndPoint(d);
-      Display_EndTime(e);
-      Display_TimeOnRoad(f);
     }
 
-    // at the end of first loop
-    if (timing != 0)
+    Notify.Notifier_loop();
+    unsigned long time2 = millis();
+    if (time2 - lasttime2 > 200)
     {
-      Notify.SetTimer(timing);
-      timing = 0;
+      lasttime2 = time2;
+      NotifyTimer = Notify.GetTimer();
+      TimerOnDisplay(NotifyTimer);
+      NotifyBuzzer1 = Notify.GetBeep();
+      if (NotifyBuzzer1 == true)
+      {
+        NotifyBuzzer2 == true;
+        // first variable will be set to false very fast
+      }
+      // Buzzer_On(NotifyBuzzer2);
     }
-  }
-
-  Notify.Notifier_loop();
-  unsigned long time2 = millis();
-  if (time2 - lasttime2 > 200)
-  {
-    lasttime2 = time2;
-    NotifyTimer = Notify.GetTimer();
-    TimerOnDisplay(NotifyTimer);
-    NotifyBuzzer1 = Notify.GetBeep();
-    if (NotifyBuzzer1 == true)
-    {
-      NotifyBuzzer2 == true;
-      // first variable will be set to false very fast
-    }
-    // Buzzer_On(NotifyBuzzer2);
   }
 }
