@@ -23,18 +23,18 @@ struct Train
 {
   char citystart[10];
   char cityend[10];
-  char timestart[5];
+  char timestart[6];
   int32 timeleave; // int timetoleave=atoi(train.timeleave)
   char stationstart[20];
   char stationend[20];
-  char timeend[5];
-  char timetotal[5];
+  char timeend[6];
+  char timetotal[6];
 };
 
 struct Train *trains = NULL;
 int CountTCP = 0;
 int SizeArray = 0;
-int32 TimeFromData;
+int TimeFromData = 0;
 
 // variables for rotary encoder
 const int thresholdReset = 10000;
@@ -121,9 +121,12 @@ void loop()
       {
         String line = client.readStringUntil('\r');
         Serial.print(line);
+        // delay(2000);
         if (CountTCP == 0)
         {
           SizeArray = line.toInt();
+          // line.remove(0, 2);
+
           CountTCP++;
           if (trains != NULL)
           {
@@ -132,13 +135,15 @@ void loop()
           trains = (struct Train *)malloc(SizeArray * sizeof(struct Train));
           continue;
         }
-        if (CountTCP == 1)
+        else if (CountTCP == 1)
         {
+          Serial.println("ftyrthyeryeye");
+          Serial.print(line);
           TimeFromData = line.toInt();
           CountTCP++;
           continue;
         }
-        if (CountTCP < SizeArray + 2)
+        else if (CountTCP < SizeArray + 2)
         {
           strcpy(trains[CountTCP - 2].citystart, line.substring(0, line.indexOf(';')).c_str());
           line.remove(0, line.indexOf(';') + 1);
@@ -158,19 +163,22 @@ void loop()
           strcpy(trains[CountTCP - 2].stationend, line.substring(0, line.indexOf(';')).c_str());
           line.remove(0, line.indexOf(';') + 1);
 
-          strcpy(trains[CountTCP - 2].timeend, line.substring(0, line.indexOf(';')).c_str());
+          strcpy(trains[CountTCP - 2].timeend, line.substring(0, 5).c_str());
           line.remove(0, line.indexOf(';') + 1);
 
           strcpy(trains[CountTCP - 2].timetotal, line.c_str());
           line.remove(0, line.indexOf('\n') + 1);
 
           CountTCP++;
+          continue;
         }
       }
+      // delay(10); // delay is necessary to let ESP receive all data before disconnecting. Otherwise it disconects client too early
     }
-
     client.stop();
     Serial.println("[Client disonnected]");
+    Serial.println(SizeArray);
+    Serial.println(TimeFromData);
   }
 
   Encoder1.Rotary_loop();
@@ -282,18 +290,25 @@ void loop()
 
     if (!startcity.equals("Start") && !endcity.equals("End") && StartDataLoop == true)
     {
-      for (int temp = 0; temp < SizeArray; temp++)
-      {
-        Serial.println(trains[temp].citystart);
-        Serial.println(trains[temp].cityend);
-        Serial.println(trains[temp].stationstart);
-        Serial.println(trains[temp].stationend);
-        Serial.println(trains[temp].timestart);
-        Serial.println(trains[temp].timeend);
-        Serial.println(trains[temp].timetotal);
-        Serial.println(trains[temp].timeleave);
-      }
-      // startcity = "Start";
+      int temp = 0; // temp < SizeArray; temp++
+      Serial.println(trains[temp].citystart);
+      Serial.println(trains[temp].cityend);
+      Serial.println(trains[temp].stationstart);
+      Serial.println(trains[temp].stationend);
+      Serial.println(trains[temp].timestart);
+      Serial.println(trains[temp].timeend);
+      Serial.println(trains[temp].timetotal);
+      Serial.println(trains[temp].timeleave);
+
+      Display_StartPoint(String(trains[temp].stationstart));
+      Display_EndPoint(String(trains[temp].stationend));
+      Display_EndTime(String(trains[temp].timeend));
+      Display_TimeOnRoad(String(trains[temp].timetotal));
+      Display_StartTimeObject(String(trains[temp].timestart));
+      int timetemp = trains[temp].timeleave - TimeFromData;
+      timing = timetemp;
+      Serial.println(timetemp);
+      Serial.println(TimeFromData);
       StartDataLoop = false;
     }
 

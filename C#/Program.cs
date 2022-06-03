@@ -29,8 +29,9 @@ namespace WebAPIClient
                 NetworkStream stream = client.GetStream();
                 stream.Write(data, 0, data.Length);
                 Console.WriteLine("Sent: {0}", message);
-                stream.Close();
-                client.Close();
+                stream.Flush();
+                //stream.Close();
+                //client.Close();
             }
             catch (ArgumentNullException e)
             {
@@ -152,12 +153,7 @@ namespace WebAPIClient
         {
             lock (LockObject) { Data = new List<string>(); }
             await ProcessRepositories();
-            //Console.WriteLine(linenumber);
-            Data.Insert(0, linenumber.ToString() + "\n");
-            // foreach (var i in Data)
-            // {
-            //     Console.WriteLine(i);
-            // }
+            Data.Insert(0, linenumber.ToString() + "\r\n");
             StringBuilder datastring = new StringBuilder();
             foreach (var j in Data)
             {
