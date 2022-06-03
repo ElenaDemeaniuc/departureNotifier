@@ -32,6 +32,9 @@ struct Train
 };
 
 struct Train *trains = NULL;
+int CountTCP = 0;
+int SizeArray = 0;
+int32 TimeFromData;
 
 // variables for rotary encoder
 const int thresholdReset = 10000;
@@ -39,7 +42,6 @@ const int threshold = 1500;
 unsigned long ElapsedTime;
 unsigned long lasttime = 0;
 unsigned long lasttime2 = 0;
-// int32 TimeFromData;
 bool StartDataLoop = false;
 
 int btnTime = 0;
@@ -65,10 +67,6 @@ String endcity = "End";
 Rotary Encoder1(S1, S2, Key);
 Notifier Notify;
 
-int datasize = 11; // example for testing
-
-int TimeFromData = 38171000; // example for testing
-
 void TimerOnDisplay(int input)
 {
   int timer = input;
@@ -81,8 +79,8 @@ void TimerOnDisplay(int input)
   }
 }
 
-const char *ssid = "";
-const char *password = "";
+const char *ssid = "UPC5690742";
+const char *password = "SWxfct3szwrf";
 WiFiServer server(5000);
 
 void setup()
@@ -116,7 +114,6 @@ void loop()
   if (client)
   {
     Serial.println("\n[Client connected]");
-    int a = 0;
     while (client.connected())
     {
       // read line by line what the client (web browser) is requesting
@@ -124,22 +121,51 @@ void loop()
       {
         String line = client.readStringUntil('\r');
         Serial.print(line);
-        if (a == 0)
+        if (CountTCP == 0)
         {
-          int b = line.toInt();
-          a++;
+          SizeArray = line.toInt();
+          CountTCP++;
           if (trains != NULL)
           {
             free(trains);
           }
-          trains = (struct Train *)malloc(b * sizeof(struct Train));
+          trains = (struct Train *)malloc(SizeArray * sizeof(struct Train));
           continue;
         }
-        if (a == 1)
+        if (CountTCP == 1)
         {
-          // int c=line.
+          TimeFromData = line.toInt();
+          CountTCP++;
+          continue;
         }
-        // line.C_str
+        if (CountTCP < SizeArray + 2)
+        {
+          strcpy(trains[CountTCP - 2].citystart, line.substring(0, line.indexOf(';')).c_str());
+          line.remove(0, line.indexOf(';') + 1);
+
+          strcpy(trains[CountTCP - 2].cityend, line.substring(0, line.indexOf(';')).c_str());
+          line.remove(0, line.indexOf(';') + 1);
+
+          strcpy(trains[CountTCP - 2].timestart, line.substring(0, line.indexOf(';')).c_str());
+          line.remove(0, line.indexOf(';') + 1);
+
+          trains[CountTCP - 2].timeleave = line.substring(0, line.indexOf(';')).toInt();
+          line.remove(0, line.indexOf(';') + 1);
+
+          strcpy(trains[CountTCP - 2].stationstart, line.substring(0, line.indexOf(';')).c_str());
+          line.remove(0, line.indexOf(';') + 1);
+
+          strcpy(trains[CountTCP - 2].stationend, line.substring(0, line.indexOf(';')).c_str());
+          line.remove(0, line.indexOf(';') + 1);
+
+          strcpy(trains[CountTCP - 2].timeend, line.substring(0, line.indexOf(';')).c_str());
+          line.remove(0, line.indexOf(';') + 1);
+
+          strcpy(trains[CountTCP - 2].timetotal, line.c_str());
+          line.remove(0, line.indexOf('\n') + 1);
+
+          CountTCP++;
+        }
       }
     }
 
@@ -256,31 +282,42 @@ void loop()
 
     if (!startcity.equals("Start") && !endcity.equals("End") && StartDataLoop == true)
     {
-      for (int i = 0; i < datasize; i++)
+      for (int temp = 0; temp < SizeArray; temp++)
       {
+        Serial.println(trains[temp].citystart);
+        Serial.println(trains[temp].cityend);
+        Serial.println(trains[temp].stationstart);
+        Serial.println(trains[temp].stationend);
+        Serial.println(trains[temp].timestart);
+        Serial.println(trains[temp].timeend);
+        Serial.println(trains[temp].timetotal);
+        Serial.println(trains[temp].timeleave);
       }
-      // at the end of first loop
-      if (timing != 0)
-      {
-        Notify.SetTimer(timing);
-        timing = 0;
-      }
+      // startcity = "Start";
+      StartDataLoop = false;
     }
 
-    Notify.Notifier_loop();
-    unsigned long time2 = millis();
-    if (time2 - lasttime2 > 200)
+    // at the end of first loop
+    if (timing != 0)
     {
-      lasttime2 = time2;
-      NotifyTimer = Notify.GetTimer();
-      TimerOnDisplay(NotifyTimer);
-      NotifyBuzzer1 = Notify.GetBeep();
-      if (NotifyBuzzer1 == true)
-      {
-        NotifyBuzzer2 == true;
-        // first variable will be set to false very fast
-      }
-      // Buzzer_On(NotifyBuzzer2);
+      Notify.SetTimer(timing);
+      timing = 0;
     }
+  }
+
+  Notify.Notifier_loop();
+  unsigned long time2 = millis();
+  if (time2 - lasttime2 > 200)
+  {
+    lasttime2 = time2;
+    NotifyTimer = Notify.GetTimer();
+    TimerOnDisplay(NotifyTimer);
+    NotifyBuzzer1 = Notify.GetBeep();
+    if (NotifyBuzzer1 == true)
+    {
+      NotifyBuzzer2 == true;
+      // first variable will be set to false very fast
+    }
+    // Buzzer_On(NotifyBuzzer2);
   }
 }

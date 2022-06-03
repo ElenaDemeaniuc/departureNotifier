@@ -19,7 +19,7 @@ namespace WebAPIClient
 
         private static int linenumber = 0;
         private const int port = 5000;
-        private const string HostName = "Name";
+        private const string HostName = "192.168.0.108";
         static void Connect(String server, String message)
         {
             try
@@ -154,10 +154,10 @@ namespace WebAPIClient
             await ProcessRepositories();
             //Console.WriteLine(linenumber);
             Data.Insert(0, linenumber.ToString() + "\n");
-            foreach (var i in Data)
-            {
-                Console.WriteLine(i);
-            }
+            // foreach (var i in Data)
+            // {
+            //     Console.WriteLine(i);
+            // }
             StringBuilder datastring = new StringBuilder();
             foreach (var j in Data)
             {
@@ -165,8 +165,9 @@ namespace WebAPIClient
             }
             Console.WriteLine(datastring);
             String datastring2 = datastring.ToString();
+            String datastring3 = datastring2.Replace("É", "E").Replace("é", "e").Replace("õ", "o").Replace("á", "a").Replace("ö", "o").Replace("ó", "o");
             //send over tcp  
-            Connect(HostName, datastring2);
+            Connect(HostName, datastring3);
         }
     }
 }
