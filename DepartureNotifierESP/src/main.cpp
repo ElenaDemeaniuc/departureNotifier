@@ -47,6 +47,7 @@ unsigned long ElapsedTime;
 unsigned long lasttime = 0;
 unsigned long lasttime2 = 0;
 bool StartDataLoop = false;
+bool StartDisplayLoop = false;
 
 int btnTime = 0;
 bool btn;
@@ -212,7 +213,11 @@ void loop()
           endcity = "End";
           Serial.println("Press is long");
           temp2 = 0;
+          StartDisplayLoop = false;
           Notify.ResetTimer();
+          int index1 = 0;
+          int index2 = 0;
+          int index3 = 0;
         }
         pressTime = 0;
       }
@@ -236,8 +241,8 @@ void loop()
         index3 = index3 + rotarycounter;
         if (index3 < 0)
           index3 = 0;
-        if (index3 > 20)
-          index3 = 20;
+        if (index3 > 19)
+          index3 = 19;
       }
       else if (btn != 0)
       {
@@ -293,36 +298,35 @@ void loop()
           temp2++;
         }
       }
-      for (int f = 0; f < 20; f++)
+      for (int f = temp2; f < 20; f++)
       {
-        Serial.println(indextrip[f]);
+        indextrip[f] = 1;
       }
-      Serial.println(trains[indextrip[3]].timetotal);
+
+      for (int t = 0; t < 20; t++)
+      {
+        Serial.println(indextrip[t]);
+      }
+      StartDisplayLoop = true;
       StartDataLoop = false;
     }
 
-    // if (!startcity.equals("Start") && !endcity.equals("End") && StartDataLoop == true)
-    // {
-    //   int temp = 0; // temp < SizeArray; temp++
-    //   Serial.println(trains[temp].citystart);
-    //   Serial.println(trains[temp].cityend);
-    //   Serial.println(trains[temp].stationstart);
-    //   Serial.println(trains[temp].stationend);
-    //   Serial.println(trains[temp].timestart);
-    //   Serial.println(trains[temp].timeend);
-    //   Serial.println(trains[temp].timetotal);
-    //   Serial.println(trains[temp].timeleave);
-
-    //   Display_StartPoint(String(trains[temp].stationstart));
-    //   Display_EndPoint(String(trains[temp].stationend));
-    //   Display_EndTime(String(trains[temp].timeend));
-    //   Display_TimeOnRoad(String(trains[temp].timetotal));
-    //   Display_StartTimeObject(String(trains[temp].timestart));
-    //   int timetemp = trains[temp].timeleave - TimeFromData;
-    //   timing = timetemp;
-    //   StartDataLoop = false;
-    // }
-
+    if (StartDisplayLoop == true)
+    {
+      Display_StartTimeSelect(String(trains[indextrip[index3] - 1].timestart), String(trains[indextrip[index3]].timestart), String(trains[indextrip[index3] + 1].timestart));
+      if (Shortpress == true)
+      {
+        Display_StartPoint(String(trains[indextrip[index3]].stationstart));
+        Display_EndPoint(String(trains[indextrip[index3]].stationend));
+        Display_EndTime(String(trains[indextrip[index3]].timeend));
+        Display_TimeOnRoad(String(trains[indextrip[index3]].timetotal));
+        Display_StartTimeObject(String(trains[indextrip[index3]].timestart));
+        int timetemp = trains[indextrip[index3]].timeleave - TimeFromData;
+        timing = timetemp;
+        Shortpress = false;
+        StartDisplayLoop = false;
+      }
+    }
     // at the end of first loop
     if (timing != 0)
     {
