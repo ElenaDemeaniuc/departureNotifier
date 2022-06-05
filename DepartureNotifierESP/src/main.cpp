@@ -17,14 +17,14 @@
 #define S1 D6  // GPIO14
 #define S2 D5  // GPIO12
 
-//#define S3 D4 // GPIO2
+#define S3 D4 // GPIO2
 
 struct Train
 {
   char citystart[10];
   char cityend[10];
   char timestart[6];
-  int32 timeleave; // int timetoleave=atoi(train.timeleave)
+  int32 timeleave;
   char stationstart[20];
   char stationend[20];
   char timeend[6];
@@ -71,6 +71,7 @@ String endcity = "End";
 
 Rotary Encoder1(S1, S2, Key);
 Notifier Notify;
+Buzzer Buzzer1(S3);
 
 void TimerOnDisplay(int input)
 {
@@ -293,7 +294,6 @@ void loop()
         Serial.println(String(trains[temp].citystart));
         if (String(trains[temp].citystart).endsWith(startcity) && String(trains[temp].cityend).equals(endcity))
         {
-          Serial.println("Meow");
           indextrip[temp2] = temp;
           temp2++;
         }
@@ -303,10 +303,10 @@ void loop()
         indextrip[f] = 1;
       }
 
-      for (int t = 0; t < 20; t++)
-      {
-        Serial.println(indextrip[t]);
-      }
+      // for (int t = 0; t < 20; t++)
+      // {
+      //   Serial.println(indextrip[t]);
+      // }
       StartDisplayLoop = true;
       StartDataLoop = false;
     }
@@ -321,7 +321,7 @@ void loop()
         Display_EndTime(String(trains[indextrip[index3]].timeend));
         Display_TimeOnRoad(String(trains[indextrip[index3]].timetotal));
         Display_StartTimeObject(String(trains[indextrip[index3]].timestart));
-        int timetemp = trains[indextrip[index3]].timeleave - TimeFromData;
+        int timetemp = trains[indextrip[index3]].timeleave - TimeFromData - ElapsedTime;
         timing = timetemp;
         Shortpress = false;
         StartDisplayLoop = false;
@@ -348,6 +348,7 @@ void loop()
       NotifyBuzzer2 == true;
       // first variable will be set to false very fast
     }
-    // Buzzer_On(NotifyBuzzer2);
+    Buzzer1.Buzzer_On(NotifyBuzzer2);
+    NotifyBuzzer2 = false;
   }
 }

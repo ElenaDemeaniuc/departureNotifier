@@ -122,6 +122,8 @@ void Display_StartTimeObject(String input)
     display.setTextColor(WHITE);
     display.setCursor(48, 27);
     display.fillRect(48, 27, 29, 8, SSD1306_BLACK);
+    display.fillRect(2, 27, 35, 8, SSD1306_BLACK);
+    display.fillRect(98, 27, 35, 8, SSD1306_BLACK);
     display.println(input);
     display.display();
 }
